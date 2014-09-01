@@ -1,15 +1,44 @@
 #!/usr/bin/python
+
+# Owee
+# Udacity final prjoect
+# this file is where the owee will be added
+
 import ower
 import dashboard
 
-bill = ower.Owee("Bill", "some email", "Shirt", "30 june 2014")
-abdel = ower.Owee("ABdel", "some email", "Shirt", "30 june 2014")
-ali = ower.Owee("Ali", "some email", "Shirt", "30 june 2014")
 
+# declare choice to select in the menu
 
-ali.change_status()
+# prompt the user on his intention
+menu = """
+What would you like to do?
+1- Add an owee
+2- Delete an owee
+3- Display owee
+> """
 
-print(ali.status)
-ali.change_status()
+# menu user input choice
+choice = "0"
 
-print(ali.status)
+# check for input validation of choice
+if choice.isdigit():
+	while choice > 3 or choice < 0:
+		choice = str(raw_input(menu)).strip()
+		if (choice == "1"):
+			#dashboard.addOwee()
+			print("owee added")
+			break;
+		elif (choice == "2"):
+			print("owee deleted")
+			#dashboard.deleteOwee()
+			break;
+		elif (choice == "3"):
+			print("owee displayed")
+			#dashboard.displayOwee()
+			break;
+		else:
+			print("Sorry but the choice has to be either 1, 2 or 3")			
+
+else:
+	print ("Please enter only one number as input")

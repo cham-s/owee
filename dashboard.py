@@ -68,7 +68,7 @@ ower_row = '''
 	<td><button type="button" class="btn btn-primary">Primary</button><span> </span><button type="button" class="btn btn-success">Success</button></td>
 </tr>
 '''
-
+# create a single row fill with dynamic content
 def create_ower_row_content(owers):
 	# create rows content
 	content = ''
@@ -82,6 +82,8 @@ def create_ower_row_content(owers):
 		status=ower.status
 		) 
 	return content	
+
+# open a webbrowser with all owees	
 
 def open_dashbord_page(owers):
 	# create or overwrite the ouput file
@@ -97,6 +99,8 @@ def open_dashbord_page(owers):
 	#open the output file in the browser
 	url = os.path.abspath(output_file.name)
 	webbrowser.open('file://' + url, new=2) # open in a new tab if possible
+
+#
 
 
 

@@ -30,7 +30,7 @@ Owee instance variables:
 - start: the day he lended the stuff
 - end: the day he has to give it back (string)
 - status: default set as still lended (string)
-- comment : some comment about the stuff he lended (string)
+- note : note comment about the stuff he lended (string)
 
 Owee instance method:
 - reminder : it will send an nice email to remind him that he still have it
