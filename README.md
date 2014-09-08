@@ -37,7 +37,10 @@ What would you like to do?
 1- Add an owee
 2- Delete an owee
 3- Display owee
+
+//TODO: not implemented yet
 4- Change the status (your object was given back)
+//TODO: not implemented yet
 5- Send a reminder message to the person owing you
 ```
 
