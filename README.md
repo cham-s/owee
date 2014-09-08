@@ -44,5 +44,11 @@ What would you like to do?
 5- Send a reminder message to the person owing you
 ```
 
+#### Practical Case
+
+![](https://raw.githubusercontent.com/dash-c/owee/master/img/terminal.png)
+![](https://raw.githubusercontent.com/dash-c/owee/master/img/app.png)
+
+
 
 
