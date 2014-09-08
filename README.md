@@ -24,8 +24,10 @@ cd owee-master/
 
 ##### Launch the application on terminal
 
-`./launcher.py` (if your python bin is set to /udr/python/bin) or simply
+
+`./launcher.py` (if your python bin is set to /usr/bin/python) or simply 
 `python launcher.py`
+
 
 ##### Follow the instructions from the menu
 ```
