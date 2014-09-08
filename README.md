@@ -10,7 +10,7 @@ https://github.com/dash-c/owee/archive/master.zip
 
 ##### Open a terminal window cd into the directory where you downloaded the zip file
 
-`cd where/the/zip/file/is` (don't copy this line "where/the/zip/file/is" is a place holder)
+`cd where/the/zip/file/is` (don't copy this line "where/the/zip/file/is" this is a place holder)
 
 ##### Unzip and delete the zip file and go into the directory
 ```
