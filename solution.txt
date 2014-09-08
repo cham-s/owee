@@ -1,28 +1,31 @@
 The application name is Owee. Why Owee?
 This is the first name i came up with, but it can change. 
-Basically this is the a neologism derive from the verb "to owe" someone.An owee represent the blueprint, and it defines everything an individual owe someone.
-let's take an example to clarify this further more.
+Basically this is the a neologism derive from the verb "to owe" someone.
+An owee is a representation of an object that someone lend to another person. It defines all the propeties and actions of the object it's like a blueprint.
+Let's take an example to clarify the idea.
 
 Bob lended $10 to Amir on july the 1st.
 
 Here the the owee represent
-- the type of thing he lended to Amir: money 
+- the type of object Bob lended to Amir: money 
 - the value: $10
-- when it started: july the 1st
+- when it started: july the 1st of 2014
 - the due date: optional
 - who he lended to : Amir
-- the status about what he lended: Still lended 
-- a private comment about what he lended or about Amir: optional
+- the status about what he lended: Still lended or Given back 
+- a private notes about what he lended or about Amir: "Amir tends to forget remind him about the money"(optional)
 - an email: Amir's email
 
 Bob is also able to perform some action with the owee.
 - He can ask the owee to change its status whenever the stuff is given back
 - He can ask the owee to remind nicely Amir that he still have the stuff
 
+
 The core of the project will use python as model combine with some html, javascript, css for the view.
 
 1/ Create a class called Owee as the blueprint.
 Owee instance variables:
+- ID: unique id to easily retrieve the object
 - name: name of the person owing the the
 - email: email (string)
 - the type of thing he lended (string)
@@ -35,15 +38,23 @@ Owee instance variables:
 Owee instance method:
 - reminder : it will send an nice email to remind him that he still have it
 - change status: it will change the status from still lended to back and vice versa
+- 
 
 2/ Create a dashboard.py file.
+dashboard is design to be a module to be use by launcher.py 
+This is where helper functions to will be added:
+-add owee
+-delete owee
+-display owee
+-change status
+-send a reminder
 This file will open a a webpage displaying all the owees.
 The file contains a function that as parameters a list of owee, then it dynamically generate a dashboard in html form opened in a web browser.
 The first step is to build a html template.
 Then fill the place holder with dynamic content each time an owee is added.
 
-3/ Create owee_center.py (as application controller)
-Everything will be put together here.This file will import both owwe.py and dashboard.py, owee_center represents the controller of the application where instances of owee will be create.
+3/ Create laucher.py (as application controller)
+Everything will be put together here.This file will import both owwe.py and dashboard.py, launcher.py represents the controller of the application where function from the dashobard.py
 
 // TODO: add owee class diagram
 
