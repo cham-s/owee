@@ -6,7 +6,7 @@ It could be money, clothes or anything, why not a boat?
 
 
 ##### Download the zip file 
-https://github.com/dash-c/owee
+https://github.com/dash-c/owee/archive/master.zip
 
 ##### Open a terminal window cd into the directory where you downloaded the zip file
 
