@@ -6,6 +6,7 @@ import time
 from time import gmtime
 import csv
 import os
+import uuid
 
 
 
@@ -13,7 +14,7 @@ import os
 main_page_head ='''
 <head>
 <meta charset="UTF-8">
-<title>Twitter Bootstrap 3 Fixed Layout Example</title>
+<title>Owee - keep track of them</title>
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -84,6 +85,7 @@ main_page_content = '''
               <table class="table table-striped">
                 <thead>
                   <tr>
+                  	<th>Owee ID</th>
                     <th>Name</th>
                     <th>Object Type</th>
                     <th>Value</th>
@@ -112,6 +114,7 @@ main_page_content = '''
 # ower row template
 owee_row = '''
 <tr>
+	<td>{owee_id}</td>
 	<td>{owee_name}</td>
 	<td>{object_type}</td>
 	<td>${value}</td>
@@ -124,7 +127,8 @@ owee_row = '''
 
 # add csv line
 def add_line():
-	f = open("owees.csv", "a")
+	# generate number with uuid only take the 5 numbers from the begining
+	owee_id = str(uuid.uuid4().fields[-1])[:5]
 	name = str(raw_input("Enter name: ")).strip()
 	email = str(raw_input("Enter email: ")).strip()
 	object_type = str(raw_input("Enter type: ")).strip()
@@ -134,8 +138,10 @@ def add_line():
 	owee_status = "Still lended"
 	comment = str(raw_input("Enter a note regarding the transaction: ")).strip()
 
-	row = [name, email, object_type, value, start_date, end_date, owee_status, comment]
+	row = [owee_id, name, email, object_type, value, start_date, end_date, owee_status, comment]
 	csv_line = ", ".join(row)
+
+	f = open("owees.csv", "a")
 	f.write(csv_line + '\n')
 
 	f.close()
@@ -148,6 +154,7 @@ def create_ower_row_content(owees):
 	for owee in owees:
 		# append with previous entry
 		content += owee_row.format(
+		owee_id=owee.o_id,	
 		owee_name=owee.name,
 		object_type=owee.type,
 		value=owee.value,
@@ -175,20 +182,32 @@ def open_dashbord_page(owees):
 	url = os.path.abspath(output_file.name)
 	webbrowser.open('file://' + url, new=2) # open in a new tab if possible
 
+
+
+
+# return csv fil rows as array
+def csv_to_array(csv_filename):
+	rows = []
+
+	with open(csv_filename, 'rb') as csvfile:
+		reader = csv.reader(csvfile, delimiter = ',')
+		for row in reader:
+	   		rows.append(row)
+	return rows   		
+
 # add a row and open the webpage with new 
 def add_owee():
 	add_line()
 	owees = []
-	csv_list = []	
+	rows = csv_to_array('owees.csv')
 
-	with open('owees.csv', 'rb') as csvfile:
-		reader = csv.reader(csvfile, delimiter = ',')
-		for row in reader:
-	   		csv_list.append(row)
-
-	for row in csv_list:
+	for row in rows:
 		owees.append(ower.Owee(row))
+
+	# after	 adding a row, display the dashboard
 	open_dashbord_page(owees)
+
+
 	
 
 
