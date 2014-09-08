@@ -124,6 +124,16 @@ owee_row = '''
 	<td>{note}</td>
 <tr>
 '''
+# return csv file rows as array
+def csv_to_array(csv_filename):
+	rows = []
+
+	with open(csv_filename, 'rb') as csvfile:
+		reader = csv.reader(csvfile, delimiter = ',')
+		for row in reader:
+	   		rows.append(row)
+	return rows 
+
 
 # add csv line
 def add_line():
@@ -146,6 +156,26 @@ def add_line():
 
 	f.close()
 
+def delete_line():
+	object_id = str(raw_input("Please enter the owee ID: ")).strip()
+	rows = csv_to_array("owees.csv")
+
+	# iterator
+	i = 0
+	for row in rows:
+		if object_id in rows[i]:
+			del rows[i]
+			break;
+		i += 1
+	f = open("owees.csv", "w")
+
+	for row in rows:
+		line = ", ".join(row)		
+		f.write(line + '\n')
+
+	f.close()	
+
+# the object was given back change the status
 
 # create a single row fill with dynamic content
 def create_ower_row_content(owees):
@@ -182,30 +212,31 @@ def open_dashbord_page(owees):
 	url = os.path.abspath(output_file.name)
 	webbrowser.open('file://' + url, new=2) # open in a new tab if possible
 
-
-
-
-# return csv fil rows as array
-def csv_to_array(csv_filename):
-	rows = []
-
-	with open(csv_filename, 'rb') as csvfile:
-		reader = csv.reader(csvfile, delimiter = ',')
-		for row in reader:
-	   		rows.append(row)
-	return rows   		
-
-# add a row and open the webpage with new 
-def add_owee():
-	add_line()
+# display to dashboard
+def display_dashboard():
 	owees = []
 	rows = csv_to_array('owees.csv')
 
 	for row in rows:
 		owees.append(ower.Owee(row))
 
-	# after	 adding a row, display the dashboard
+	# after	 adding a row, display it the dashboard
 	open_dashbord_page(owees)
+
+  		
+
+# add a row and open the webpage with new 
+def add_owee():
+	add_line()
+	display_dashboard()
+	
+
+# delete a specify row and display it to the dashboard
+def delete_owee():	
+	delete_line()
+	display_dashboard()
+	
+
 
 
 	
