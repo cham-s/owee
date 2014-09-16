@@ -1,10 +1,10 @@
 # the dashboard display all the owee transaction
 
 import webbrowser
-import ower
+import item 
 import time
 from time import gmtime
-import csv
+import pickle
 import os
 import uuid
 
@@ -124,43 +124,43 @@ owee_row = '''
 	<td>{note}</td>
 <tr>
 '''
-# return csv file rows as array
-def csv_to_array(csv_filename):
-	rows = []
-
-	with open(csv_filename, 'rb') as csvfile:
-		reader = csv.reader(csvfile, delimiter = ',')
-		for row in reader:
-	   		rows.append(row)
-	return rows 
-
 
 # add csv line
 def add_line():
-	# generate number with uuid only take the 5 numbers from the begining
-	owee_id = str(uuid.uuid4().fields[-1])[:5]
-	name = str(raw_input("Enter name: ")).strip()
+	first_name = str(raw_input("Enter name: ")).strip()
+	last_name = str(raw_input("Enter name: ")).strip()
 	email = str(raw_input("Enter email: ")).strip()
-	object_type = str(raw_input("Enter type: ")).strip()
-	value = str(raw_input("Enter value: ")).strip()
+	address = str(raw_input("Enter adddess: ")).strip()
+	phone = str(raw_input("Enter a phone number: ")).strip()
+	# generate a 5 digit unique id
+	owee_id = str(uuid.uuid4().fields[-1])[:5]
+	item_type = str(raw_input("Enter type: ")).strip()
+	item_value = str(raw_input("Enter value: ")).strip()
 	start_date = time.strftime(" %d %b %Y", gmtime())
 	end_date = str(raw_input("Enter a due date: ")).strip()
 	owee_status = "Still lended"
 	comment = str(raw_input("Enter a note regarding the transaction: ")).strip()
 
-	row = [owee_id, name, email, object_type, value, start_date, end_date, owee_status, comment]
-	csv_line = ", ".join(row)
+	item_loaned = item.ItemLoaned(first_name, last_name, email, phone, address, 
+		            owee_id, item_type, item_value, start_date,
+                    end_date, owee_status, comment)
 
-	f = open("owees.csv", "a")
-	f.write(csv_line + '\n')
+	# open file to read and load objects
+	f = open("owees.txt", "rb")
+	owee_list = pickle.load(f)
+	owee_list.append(item_loaned)
+	f.close()
 
+	# open and write objects to file
+	f = open("owees.txt", "wb")
+	pickle.dump(owee_list, f)
 	f.close()
 
 def delete_line():
 	object_id = str(raw_input("Please enter the owee ID: ")).strip()
 	rows = csv_to_array("owees.csv")
 
-	# iterator
+	# for each line if the contains the id delete the entire line and break out of the loop
 	i = 0
 	for row in rows:
 		if object_id in rows[i]:
@@ -225,16 +225,7 @@ def display_dashboard():
 
   		
 
-# add a row and open the webpage with new 
-def add_owee():
-	add_line()
-	display_dashboard()
-	
 
-# delete a specify row and display it to the dashboard
-def delete_owee():	
-	delete_line()
-	display_dashboard()
 	
 
 
