@@ -125,8 +125,31 @@ owee_row = '''
 <tr>
 '''
 
-# add csv line
-def add_line():
+# return a list of object
+def file_to_list(filename):
+	# open file to read and load objects
+	if os.path.getsize(os.getcwd() + "/" + filename) > 0:
+		f = open(filename, "rb")
+		try:
+			object_list = pickle.load(f)
+			return object_list
+		except EOFError:
+			return None
+		f.close()	
+	else:
+		object_list = []
+		return object_list			
+	
+
+# open a file to write and modifies it	
+def modify_file(list_of_object, filename):
+	# open and write objects to file
+	f = open(filename, "wb")
+	pickle.dump(list_of_object, f)
+	f.close()
+
+# add an object to this list
+def add_line(filename):
 	first_name = str(raw_input("Enter name: ")).strip()
 	last_name = str(raw_input("Enter name: ")).strip()
 	email = str(raw_input("Enter email: ")).strip()
@@ -145,35 +168,31 @@ def add_line():
 		            owee_id, item_type, item_value, start_date,
                     end_date, owee_status, comment)
 
-	# open file to read and load objects
-	f = open("owees.txt", "rb")
-	owee_list = pickle.load(f)
-	owee_list.append(item_loaned)
-	f.close()
+	owees = file_to_list(filename)
+	owees.append(item_loaned)
 
-	# open and write objects to file
-	f = open("owees.txt", "wb")
-	pickle.dump(owee_list, f)
-	f.close()
+	modify_file(owees, filename)
 
-def delete_line():
-	object_id = str(raw_input("Please enter the owee ID: ")).strip()
-	rows = csv_to_array("owees.csv")
 
-	# for each line if the contains the id delete the entire line and break out of the loop
+
+	
+
+def delete_line(filename):
+	search_id = str(raw_input("Please enter the owee ID: ")).strip()
+	owees = file_to_list(filename)
+	# iterator
 	i = 0
-	for row in rows:
-		if object_id in rows[i]:
-			del rows[i]
+	id_is_there = False
+	# check id exist and delete the owee
+	for owee in owees:
+		if search_id == owee.item_id:
+			del(owees[i])
+			id_is_there = True
 			break;
-		i += 1
-	f = open("owees.csv", "w")
+		i += 1	
 
-	for row in rows:
-		line = ", ".join(row)		
-		f.write(line + '\n')
-
-	f.close()	
+	modify_file(owees, filename)
+	return id_is_there
 
 # the object was given back change the status
 
@@ -184,12 +203,12 @@ def create_ower_row_content(owees):
 	for owee in owees:
 		# append with previous entry
 		content += owee_row.format(
-		owee_id=owee.o_id,	
-		owee_name=owee.name,
-		object_type=owee.type,
-		value=owee.value,
-		start_date=owee.start,	
-		end_date=owee.end,
+		owee_id=owee.item_id,	
+		owee_name=owee.the_ower.first_name,
+		object_type=owee.item_type,
+		value=owee.value,	
+		start_date=owee.start_date,	
+		end_date=owee.end_date,
 		status=owee.status,
 		note=owee.comment
 		) 
@@ -197,7 +216,7 @@ def create_ower_row_content(owees):
 
 # open a webbrowser with all owees	
 
-def open_dashbord_page(owees):
+def open_dashboard_page(owees):
 	# create or overwrite the ouput file
 	output_file = open('dashboard.html', 'w')
 
@@ -212,16 +231,6 @@ def open_dashbord_page(owees):
 	url = os.path.abspath(output_file.name)
 	webbrowser.open('file://' + url, new=2) # open in a new tab if possible
 
-# display to dashboard
-def display_dashboard():
-	owees = []
-	rows = csv_to_array('owees.csv')
-
-	for row in rows:
-		owees.append(ower.Owee(row))
-
-	# after	 adding a row, display it the dashboard
-	open_dashbord_page(owees)
 
   		
 

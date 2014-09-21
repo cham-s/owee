@@ -4,16 +4,15 @@
 # Udacity final project
 # this file is where the owee will be added
 
-import ower
 import dashboard
 
 
 # declare choice to select in the menu
 
 # menu user input choice
-choice = "0"
+choice = 0
 
-while int(choice) < 7 or len(choice) < 2:
+while int(choice) < 6:
 	# prompt the user on his intention
 	menu = """
 	| ************************* Welcome to Owee ************************** |
@@ -28,50 +27,49 @@ while int(choice) < 7 or len(choice) < 2:
 	> """
 
 	# check for input validation of choice
-	if choice.isdigit():
-		choice = str(raw_input(menu)).strip()
-		try:
-			if (choice == "1"):
-				try:
-					dashboard.add_line()
-					print("0wee successfully added")
-				except:
-					print("Something went wrong")	
+	try:
+		choice = int(raw_input(menu))
+		if (choice == 1):
+			try:
+				dashboard.add_line("owees.txt")
+				print("0wee successfully added")
+			except:
+				print("Something went wrong")	
 
-			elif (choice == "2"):
-				option = ""
-				while option > 1:
-					option = raw_input("Do you really want to delete the owee? There is no going back [y/n]: ")
-					if (option == "y"):
-						dashboard.delete_line()
-						print("Owee deleted")	
-					elif (option == "n"):
-						print("Opearation canceled")
-					else:
-						print("Please y as yes or n as no")	
-					break;		 
+		elif (choice == 2):
+			option = ""
+			while option > 1:
+				option = raw_input("Do you really want to delete the owee? There is no going back [y/n]: ")
+				if (option == "y"):
+					dashboard.delete_line()
+					print("Owee deleted")	
+				elif (option == "n"):
+					print("Opearation canceled")
+				else:
+					print("Please y as yes or n as no")	
+				break;		 
 
-			elif (choice == "3"):
-				try:
-					dashboard.display_dashboard()
-					print("Owee displayed")
-				except: 
-					print("Something went wrong")	
+		elif (choice == 3):
+			try:
+				owees = dashboard.file_to_list("owees.txt")
+				dashboard.open_dashboard_page(owees)
+				print("Owee displayed successfully")
+			except: 
+				print("Something went wrong")	
 
-			elif (choice == "4"):
-				try:
-					#dashboard.change_stattus()
-					print("Owee status successfully changed")
-				except:
-					print("Something went wrong")	
+		elif (choice == 4):
+			try:
+				#dashboard.change_stattus()
+				print("Owee status successfully changed")
+			except:
+				print("Something went wrong")	
 
-			elif (choice == "5"):
-				print("mail sent")
-				#dashboard.send_mail()
-			else:
-				print("Sorry but the choice has to be either 1, 2 or 3")
-		except:
-			print("enter number")			
-
-	else:
-		print ("Please enter only one number as input")
+		elif (choice == 5):
+			print("mail sent")
+			#dashboard.send_mail()
+		elif (choice == 6):
+			print("Bye... till next time")	
+		else:
+			print("Sorry but the choice has to be either 1, 2, 3, 4, 5, 6")
+	except:
+		print ("Please enter a number as input")						
