@@ -15,6 +15,6 @@ class ItemLoaned(object):
 		self.comment = _comment
 
 		# change the status
-		def change_status(self):
+	def change_status(self):
 			if self.status == "Still Loaned":
-				self.status = "Given back"	
+				self.status = "Given Back"	

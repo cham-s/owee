@@ -150,8 +150,8 @@ def modify_file(list_of_object, filename):
 
 # add an object to this list
 def add_line(filename):
-	first_name = str(raw_input("Enter name: ")).strip()
-	last_name = str(raw_input("Enter name: ")).strip()
+	first_name = str(raw_input("Enter first name: ")).strip()
+	last_name = str(raw_input("Enter last name: ")).strip()
 	email = str(raw_input("Enter email: ")).strip()
 	address = str(raw_input("Enter adddess: ")).strip()
 	phone = str(raw_input("Enter a phone number: ")).strip()
@@ -178,23 +178,43 @@ def add_line(filename):
 	
 
 def delete_line(filename):
-	search_id = str(raw_input("Please enter the owee ID: ")).strip()
+	search_id = str(raw_input("Enter the owee ID: ")).strip()
+	if search_id == "q":
+		return True
 	owees = file_to_list(filename)
 	# iterator
 	i = 0
 	id_is_there = False
-	# check id exist and delete the owee
+	# check is id exist and delete the owee
 	for owee in owees:
 		if search_id == owee.item_id:
 			del(owees[i])
 			id_is_there = True
-			break;
+			break;	
 		i += 1	
 
 	modify_file(owees, filename)
 	return id_is_there
 
 # the object was given back change the status
+def change_status(filename):
+	search_id = str(raw_input("Enter the owee ID: ")).strip()
+	if search_id == "q":
+		return True
+	owees = file_to_list(filename)
+	# iterator
+	i = 0
+	id_is_there = False
+	# check is id exist and delete the owee
+	for owee in owees:
+		if search_id == owee.item_id:
+			owee.change_stattus()
+			id_is_there = True
+			break;	
+		i += 1	
+
+	modify_file(owees, filename)
+	return id_is_there
 
 # create a single row fill with dynamic content
 def create_ower_row_content(owees):
@@ -230,6 +250,8 @@ def open_dashboard_page(owees):
 	#open the output file in the browser
 	url = os.path.abspath(output_file.name)
 	webbrowser.open('file://' + url, new=2) # open in a new tab if possible
+
+
 
 
   		
