@@ -71,7 +71,7 @@ while int(choice) < 7:
 		elif choice == 5:
 			# send a message 
 
-			print("message sent")
+			print("TO DO: implement this")
 			#dashboard.send_message()
 		elif choice == 6:
 			# change the due date

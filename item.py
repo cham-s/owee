@@ -2,7 +2,8 @@ import ower
 
 class ItemLoaned(object):
 	"""Object representing item loaned"""
-	def __init__(self, ower, _item_id, _item_type, _item_value, _start_date, _end_date, status, _comment):
+	def __init__(self, ower, _item_id, _item_type, _item_value, 
+		_start_date, _end_date, status, _comment):
 
 		self.the_ower = ower
 		self.item_id = _item_id
@@ -22,6 +23,10 @@ class ItemLoaned(object):
 
 	def change_end_date(self, new_end_date):
 		self.end_date = new_end_date
+
+	# My first intention was to use twilio to send text message
+	# but it does not work where live, in France.
+	# That is why iam using smtplib as a fallback
 
 	# send a message about the
 	#def send_reminder():

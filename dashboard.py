@@ -92,17 +92,17 @@ main_page_content = '''
 
 # ower row template
 owee_row = '''
-<tr>
-	<td>{owee_id}</td>
-	<td>{owee_name}</td>
-	<td>{object_type}</td>
-	<td>${value}</td>
-	<td>{start_date}</td>
-	<td>{end_date}</td>
-	<td>{status}</td>
-	<td>{note}</td>
-<tr>
-'''
+				<tr>
+					<td>{owee_id}</td>
+					<td>{owee_name}</td>
+					<td>{object_type}</td>
+					<td>${value}</td>
+					<td>{start_date}</td>
+					<td>{end_date}</td>
+					<td>{status}</td>
+					<td>{note}</td>
+				<tr>
+				'''
 
 # return a list of object
 def file_to_list(filename):
@@ -125,7 +125,8 @@ def modify_file(list_of_object, filename):
 	# open and write objects to file
 	f = open(filename, "wb")
 	pickle.dump(list_of_object, f)
-	f.close()
+	f.close()	
+
 
 # add an object to this list
 def add_line(filename):
