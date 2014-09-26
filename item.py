@@ -2,10 +2,9 @@ import ower
 
 class ItemLoaned(object):
 	"""Object representing item loaned"""
-	def __init__(self, ower_first_name, ower_last_name, ower_email, ower_phone, ower_address, 
-	_item_id, _item_type, _item_value, _start_date, _end_date, status, _comment):
+	def __init__(self, ower, _item_id, _item_type, _item_value, _start_date, _end_date, status, _comment):
 
-		self.the_ower = ower.Ower(ower_first_name, ower_last_name, ower_email, ower_phone, ower_address)
+		self.the_ower = ower
 		self.item_id = _item_id
 		self.item_type = _item_type
 		self.value = _item_value
@@ -14,7 +13,24 @@ class ItemLoaned(object):
 		self.status = "Still Loaned"
 		self.comment = _comment
 
-		# change the status
+	# change the status
 	def change_status(self):
 			if self.status == "Still Loaned":
-				self.status = "Given Back"	
+				self.status = "Given Back"
+			else:
+				self.status = "Still Loaned"
+
+	def change_end_date(self, new_end_date):
+		self.end_date = new_end_date
+
+	# send a message about the
+	#def send_reminder():
+	#body = """Hello %s, I hope you are well.
+	#Just a quick note to remind you that the %s you
+	#borrowed from is still in your possession.
+	#"""
+
+
+						
+
+				

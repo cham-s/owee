@@ -1,7 +1,8 @@
 # the dashboard display all the owee transaction
 
 import webbrowser
-import item 
+import item
+import ower 
 import time
 from time import gmtime
 import pickle
@@ -57,29 +58,7 @@ main_page_content = '''
       <div class="col-md-12 col-lg-12">
             <h1 class="page-header">Overview</h1>
 
-            <div class="row placeholders">
-              <div class="col-xs-6 col-sm-3 placeholder">
-                <img data-src="holder.js/200x200/auto/sky" src="img/simple.png" class="img-responsive" alt="Generic placeholder thumbnail">
-                <h4>Label</h4>
-                <span class="text-muted">Something else</span>
-              </div>
-              <div class="col-xs-6 col-sm-3 placeholder">
-                <img data-src="holder.js/200x200/auto/vine" src="img/6charts.png" class="img-responsive" alt="Generic placeholder thumbnail">
-                <h4>Label</h4>
-                <span class="text-muted">Something else</span>
-              </div>
-              <div class="col-xs-6 col-sm-3 placeholder">
-                <img data-src="holder.js/200x200/auto/sky" src="img/simple.png" class="img-responsive" alt="Generic placeholder thumbnail">
-                <h4>Label</h4>
-                <span class="text-muted">Something else</span>
-              </div>
-              <div class="col-xs-6 col-sm-3 placeholder">
-                <img data-src="holder.js/200x200/auto/vine" src="img/6charts.png" class="img-responsive" alt="Generic placeholder thumbnail">
-                <h4>Label</h4>
-                <span class="text-muted">Something else</span>
-              </div>
-            </div>
-
+     
             <h2 class="sub-header">Owees</h2>
             <div class="table-responsive">
               <table class="table table-striped">
@@ -164,9 +143,11 @@ def add_line(filename):
 	owee_status = "Still lended"
 	comment = str(raw_input("Enter a note regarding the transaction: ")).strip()
 
-	item_loaned = item.ItemLoaned(first_name, last_name, email, phone, address, 
-		            owee_id, item_type, item_value, start_date,
-                    end_date, owee_status, comment)
+	the_ower = ower.Ower(first_name, last_name, email, phone, address)
+
+
+	item_loaned = item.ItemLoaned(the_ower, owee_id, item_type, item_value, start_date,
+                end_date, owee_status, comment)
 
 	owees = file_to_list(filename)
 	owees.append(item_loaned)
@@ -177,44 +158,42 @@ def add_line(filename):
 
 	
 
-def delete_line(filename):
-	search_id = str(raw_input("Enter the owee ID: ")).strip()
-	if search_id == "q":
-		return True
+def change_state(filename, state):
+	search_id = ""
 	owees = file_to_list(filename)
 	# iterator
 	i = 0
-	id_is_there = False
-	# check is id exist and delete the owee
-	for owee in owees:
-		if search_id == owee.item_id:
-			del(owees[i])
-			id_is_there = True
-			break;	
-		i += 1	
+	id_is_not_there = True
+	# check if id exits and proceed accordingly
+	while id_is_not_there:
+		search_id = str(raw_input("Enter the owee ID: ")).strip()
+		for owee in owees:
+			if search_id == owee.item_id:
+				# option to delete a row
+				if state == "delete":
+					del(owees[i])
+				# option to change owee status
+				elif state == "status":
+					owee.change_status()
+				# option to change the end date	
+				elif state == "date":
+					new_end_date = raw_input("\nEnter new date (format: dd month year): ")
+					owee.change_end_date(new_end_date)
+				else:
+					print ("Invalid state")
+				id_is_not_there = False	
+			i += 1			
+		if id_is_not_there:
+			print("Please enter a valid ID or 'q' to quit. ")	
+		else:
+			print("\n...Operation succeded\n")
+					
+		if search_id == "q":
+				print("\n...Operation canceled.\n")
+				break;
 
 	modify_file(owees, filename)
-	return id_is_there
 
-# the object was given back change the status
-def change_status(filename):
-	search_id = str(raw_input("Enter the owee ID: ")).strip()
-	if search_id == "q":
-		return True
-	owees = file_to_list(filename)
-	# iterator
-	i = 0
-	id_is_there = False
-	# check is id exist and delete the owee
-	for owee in owees:
-		if search_id == owee.item_id:
-			owee.change_stattus()
-			id_is_there = True
-			break;	
-		i += 1	
-
-	modify_file(owees, filename)
-	return id_is_there
 
 # create a single row fill with dynamic content
 def create_ower_row_content(owees):
