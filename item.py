@@ -1,41 +1,37 @@
 import ower
 
 class ItemLoaned(object):
-	"""Object representing item loaned"""
-	def __init__(self, ower, _item_id, _item_type, _item_value, 
-		_start_date, _end_date, status, _comment):
+    """Object representing item loaned"""
+    def __init__(self, ower, _item_id, _item_type, _item_value,
+            _start_date, _end_date, _comment):
 
-		self.the_ower = ower
-		self.item_id = _item_id
-		self.item_type = _item_type
-		self.value = _item_value
-		self.start_date = _start_date
-		self.end_date = _end_date
-		self.status = "Still Loaned"
-		self.comment = _comment
+        self.the_ower = ower
+        self.item_id = _item_id
+        self.item_type = _item_type
+        self.value = _item_value
+        self.start_date = _start_date
+        self.end_date = _end_date
+        self.status = "Still Loaned"
+        self.comment = _comment
 
-	# change the status
-	def change_status(self):
-			if self.status == "Still Loaned":
-				self.status = "Given Back"
-			else:
-				self.status = "Still Loaned"
+    # change the status
+    def change_status(self):
+            if self.status == "Still Loaned":
+                self.status = "Given Back"
+            else:
+                self.status = "Still Loaned"
 
-	def change_end_date(self, new_end_date):
-		self.end_date = new_end_date
+    def change_end_date(self, new_end_date):
+        self.end_date = new_end_date
 
-	# My first intention was to use twilio to send text message
-	# but it does not work where live, in France.
-	# That is why iam using smtplib as a fallback
+    # My first intention was to use twilio to send text message
+    # but it does not work where live, in France.
+    # That is why iam using smtplib as a fallback
 
-	# send a message about the
-	#def send_reminder():
-	#body = """Hello %s, I hope you are well.
-	#Just a quick note to remind you that the %s you
-	#borrowed from is still in your possession.
-	#"""
+    # send a message about the
+    #def send_reminder():
+    #body = """Hello %s, I hope you are well.
+    #Just a quick note to remind you that the %s you
+    #borrowed from is still in your possession.
+    #"""
 
-
-						
-
-				
