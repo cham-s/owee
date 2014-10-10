@@ -81,7 +81,7 @@ while int(choice) < 7:
             print("\nBye... until next time\n")
         else:
             # if choice is not valid prompt this error message
-            print("\nSorry but the choice has to be either 1, 2, 3, 4, 5 or 6\n")
+            print("\nSorry but the choice has to be either 1, 2, 3, 4, 5, 6 or 7\n")
             choice = 0
 
     except Exception, e:

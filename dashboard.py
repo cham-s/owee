@@ -95,7 +95,7 @@ owee_row = '''
                     <td>{owee_id}</td>
                     <td>{owee_name}</td>
                     <td>{object_type}</td>
-                    <td>${value}</td>
+                    <td>$ {value}</td>
                     <td>{start_date}</td>
                     <td>{end_date}</td>
                     <td>{status}</td>
@@ -129,57 +129,91 @@ def modify_file(list_of_object, filename):
 
 # check user input in "field"
 def check_input(input_type):
-    output = ""
-
-    # check for email input
+    # check email input
     if input_type == "email":
-        output = raw_input("Enter email: ")
-        email_re = re.compile(r"[^@]+@[^@]+\.[^@]+")
+        email = raw_input("Enter email: ")
+        match = re.match(r'[^@]+@[^@]+\.[^@]+', email)
 
-        while not email_re.match(output):
-            output = raw_input("Please enter a valid email: ")
+        while not match:
+            email = raw_input("Please enter a valid email: ")
+            match = re.match(r'[^@]+@[^@]+\.[^@]+', email)
+        return email
 
-    # check for phone number input
+    # check date format input
+    elif input_type == "date":
+        date = raw_input("Enter a due date (format: 1 Jan 2014): ")
+        # valid months format
+        months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
+                  "Aug", "Sep", "Oct", "Nov", "Dec"]
+        day = ""
+        month = ""
+        year = ""
+
+        # match regex and date
+        match = re.match(r'(^\d{1,2}) ([a-zA-Z]{3}) (2\d{3})', date)
+        if match:
+            day = match.group(1)
+            month = match.group(2)
+            year = match.group(3)
+            while not month.capitalize() in months:
+                month = raw_input('Invalid month, retype only month: ')
+            while day > "31":
+                    day = raw_input('Day of the month too high, retype only the day: ')
+        # loop until the date input is valid or the user enter none
+        while not match and date != "none":
+            date = raw_input("Invalid date format, retry: ")
+            match = re.match(r'(^\d{1,2}) ([a-zA-Z]{3}) (2\d{3})', date)
+            if match:
+                day = match.group(1)
+                month = match.group(2)
+                year = match.group(3)
+                while not month in months:
+                    month = raw_input('Invalid month, retype only month: ')
+                while day > "31":
+                    day = raw_input('Day of the month too high, retype only the day: ')
+
+        # format date before returning it
+        date = "{0:s} {1:s} {2:s}".format(day, month.capitalize(), year)
+        return date
+
+    # check phone number input
     elif input_type == "phone":
-        output = raw_input("Enter a phone number: ")
-        output = output.replace(" ", "")
+        phone = raw_input("Enter a phone number (format: (11) 111-1111): ")
+        match = re.match(r'^\(\d{1,3}\) \d{3}-\d{4}', phone)
+        while not match and phone != "none":
+            phone = raw_input("Enter a valid phone number: ")
+            match = re.match(r'^\(\d{1,3}\) \d{3}-\d{4}', phone)
+        return phone
 
-        while str.isdigit(output) == False:
-            output = raw_input("Please enter a valid phone number: ")
-            output = output.replace(" ", "")
+    # check value to be only number
+    elif input_type == "value":
+        value = raw_input("Enter a value: ")
+        while str.isdigit(value) == False and value != "none":
+            value = raw_input("Invalid, only input number: ")
+        return value
     else:
         print("Argument not valid")
-    return output
-
-
-def match(regex, content):
-    stuff_re = re.compile(regex)
-    if stuff_re.match(content):
-        print "there is a match"
-    else:
-        print "there is no match all"
 
 
 # add an object to this list
 def add_line(filename):
     first_name = str(raw_input("Enter first name: ")).strip()
     last_name = str(raw_input("Enter last name: ")).strip()
-    email = str(raw_input("Enter email: ")).strip()
-    address = str(raw_input("Enter adddess: ")).strip()
-    phone = str(raw_input("Enter a phone number: ")).strip()
+    email = check_input("email")
+    address = str(raw_input("Enter address: ")).strip()
+    phone = check_input("phone")
     # generate a 5 digit unique id
     owee_id = str(uuid.uuid4().fields[-1])[:5]
-    item_type = str(raw_input("Enter type: ")).strip()
-    item_value = str(raw_input("Enter value: ")).strip()
+    item_type = str(raw_input("Enter the type of object (e.g: money, shirt): ")).strip()
+    item_value = check_input("value")
     start_date = time.strftime(" %d %b %Y", gmtime())
-    end_date = str(raw_input("Enter a due date: ")).strip()
-    owee_status = "Still lended"
+    end_date = check_input("date")
     comment = str(raw_input("Enter a note regarding the transaction: ")).strip()
 
     the_ower = ower.Ower(first_name, last_name, email, phone, address)
 
     item_loaned = item.ItemLoaned(the_ower, owee_id, item_type, item_value, start_date,
-                                  end_date, owee_status, comment)
+                                  end_date, comment)
 
     owees = file_to_list(filename)
     owees.append(item_loaned)
@@ -205,7 +239,7 @@ def change_state(filename, state):
                     owee.change_status()
                 # option to change the end date
                 elif state == "date":
-                    new_end_date = raw_input("\nEnter new date (format: dd month year): ")
+                    new_end_date = check_input("date")
                     owee.change_end_date(new_end_date)
                 else:
                     print ("Invalid state")
@@ -225,7 +259,7 @@ def change_state(filename, state):
 
 # create a single row fill with dynamic content
 def create_ower_row_content(owees):
-    # create rows content
+    # create row content
     content = ''
     for owee in owees:
         # append with previous entry
@@ -255,7 +289,7 @@ def open_dashboard_page(owees):
     output_file.write(main_page_head + rendered_content)
     output_file.close()
 
-    #open the output file in the browser
+    # open the output file in the browser
     url = os.path.abspath(output_file.name)
     webbrowser.open('file://' + url, new=2)  # open in a new tab if possible
 
