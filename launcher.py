@@ -38,7 +38,8 @@ while int(choice) < 7:
 
              """
             print("1- Add an owee.\n")
-            dashboard.add_line("owees.txt")
+            # the .ol file is a custom made extension for object list or owee list file
+            dashboard.add_line("owees.ol")
             print("\n...0wee successfully added.\n")
 
         elif choice == 2:
@@ -47,24 +48,23 @@ while int(choice) < 7:
             print("\n2- Delete an owee.\n")
 
             # agree to delete owee
+            while option != "y" and option != "n":
+                option = raw_input("Please type y for yes or n for no: ")
             if option == "y":
-                dashboard.change_state("owees.txt", "delete")
+                dashboard.change_state("owees.ol", "delete")
 
             # refuse to delete owee
             elif option == "n":
                 print("\n...Operation canceled.\n")
 
-            else:
-                print("Please type y for yes or n for no.")
-
         elif choice == 3:
             # display all owees in a webpage form
-            owees = dashboard.file_to_list("owees.txt")
+            owees = dashboard.file_to_list("owees.ol")
             dashboard.open_dashboard_page(owees)
 
         elif choice == 4:
             # change the status of an owee
-            dashboard.change_state("owees.txt", "status")
+            dashboard.change_state("owees.ol", "status")
 
         elif choice == 5:
             # send a message
@@ -73,7 +73,7 @@ while int(choice) < 7:
             #dashboard.send_message()
         elif choice == 6:
             # change the due date
-            dashboard.change_state("owees.txt", "date")
+            dashboard.change_state("owees.ol", "date")
 
 
         elif choice == 7:
