@@ -68,6 +68,7 @@ while int(choice) < 7:
 
         elif choice == 5:
             # send a message
+            dashboard.change_state("owees.ol", "reminder")
 
             print("TO DO: implement this")
             #dashboard.send_message()

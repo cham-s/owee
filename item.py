@@ -14,24 +14,17 @@ class ItemLoaned(object):
         self.status = "Still Loaned"
         self.comment = _comment
 
-    # change the status
+    # change the status of the object
     def change_status(self):
             if self.status == "Still Loaned":
                 self.status = "Given Back"
             else:
                 self.status = "Still Loaned"
 
+    # change the due date
     def change_end_date(self, new_end_date):
         self.end_date = new_end_date
 
-    # My first intention was to use twilio to send text message
-    # but it does not work where live, in France.
-    # That is why iam using smtplib as a fallback
 
-    # send a message about the
-    #def send_reminder():
-    #body = """Hello %s, I hope you are well.
-    #Just a quick note to remind you that the %s you
-    #borrowed from is still in your possession.
-    #"""
+
 

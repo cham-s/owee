@@ -151,6 +151,7 @@ def check_input(input_type):
 
         # match regex and date
         match = re.match(r'(^\d{1,2}) ([a-zA-Z]{3}) (2\d{3})', date)
+
         if match:
             day = match.group(1)
             month = match.group(2)
@@ -228,19 +229,22 @@ def change_state(filename, state):
     id_is_not_there = True
     # check if id exits and proceed accordingly
     while id_is_not_there:
-        search_id = str(raw_input("Enter the owee ID: ")).strip()
+        search_id = str(raw_input('Enter the owee ID: ')).strip()
         for owee in owees:
             if search_id == owee.item_id:
                 # option to delete a row
-                if state == "delete":
+                if state == 'delete':
                     del (owees[i])
                 # option to change owee status
-                elif state == "status":
+                elif state == 'status':
                     owee.change_status()
                 # option to change the end date
-                elif state == "date":
+                elif state == 'date':
                     new_end_date = check_input("date")
                     owee.change_end_date(new_end_date)
+                # option to send a reminder message
+                elif state == 'reminder':
+                    owee.the_ower.send_reminder()
                 else:
                     print ("Invalid state")
                 id_is_not_there = False
