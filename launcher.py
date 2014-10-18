@@ -19,7 +19,7 @@ while int(choice) < 7:
 
     1. Add an owee
     2. Delete an owee
-    3. Display Dashboard
+    3. Display Dashboard (watch all owees)
     4. Change the status (reverse the current status Still Loaned/Given Back)
     5. Send a reminder message to the person owing you
     6. Modify due date
@@ -70,8 +70,6 @@ while int(choice) < 7:
             # send a message
             dashboard.change_state("owees.ol", "reminder")
 
-            print("TO DO: implement this")
-            #dashboard.send_message()
         elif choice == 6:
             # change the due date
             dashboard.change_state("owees.ol", "date")

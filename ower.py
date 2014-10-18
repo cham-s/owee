@@ -7,6 +7,8 @@ import re
 import getpass
 import socket
 import sys
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 
 class Ower():
@@ -58,9 +60,8 @@ class Ower():
                 # if user connection to webmail failed handle the exception
                 except smtplib.SMTPException:
                     print ('Authentication failed, wrong password or mail combo.' + '\n')
-                    sender = str(raw_input('Enter email:')).lower().strip()
+                    sender = str(raw_input('Enter email: ')).lower().strip()
                     sender_password = getpass.getpass('Enter your email password: ').strip()
-                    smtpserver.close()
         # handle the exception if connection to webmail host failed
         except (socket.gaierror, socket.error, socket.herror, smtplib.SMTPException), e:
             print ('Connection to {0:s} failed'.format(webmail) + '\n')
@@ -71,21 +72,34 @@ class Ower():
 
         # format the message to be sent
         to = self.email
-        subject = raw_input('Subject: ').strip()
-        message_body = raw_input('Message: ').strip()
-        header = 'To: {0:s}\nFrom: {1:s}\nSubject: {2:s} \n'.format(sender, to, subject)
-        print (header)
-        message = '{0:s} \n {1:s} \n\n'.format(header, message_body)
+        msg = MIMEMultipart('alternative')
+        msg['Subject'] = str(raw_input('Subject: ')).strip()
+        msg['From'] = sender
+        msg['To'] = to
+
+        # create the body of the message
+        message_body = str(raw_input('Message: '))
+        html = """
+        <html>
+            <head></head>
+            <body>
+                {body}
+            </body>
+        </html>
+        """
+        html = html.format(body=message_body)
+        message = MIMEText(html, 'html')
+        msg.attach(message)
         # try to send message
         try:
-            smtpserver.sendmail(sender, to, message)
-        except smtplib.STMPEception:
+            smtpserver.sendmail(sender, to, msg.as_string())
+        except smtplib.SMTPException:
             print ('Email could not be sent, retry please.')
             smtpserver.close()
             getpass.getpass('Press enter to leave')
             sys.exit(1)
 
-        print ('Email Sent Successfully \n')
+        print ('\nEmail Sent Successfully \n')
 
 
 
