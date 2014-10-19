@@ -8,16 +8,6 @@ It could be money, clothes or anything, why not a boat?
 ##### Download the zip file 
 https://github.com/dash-c/owee/archive/master.zip
 
-##### Open a terminal window cd into the directory where you downloaded the zip file
-
-`cd where/the/zip/file/is` (don't copy this line "where/the/zip/file/is" this is a place holder)
-
-##### Unzip and delete the zip file and go into the directory
-```
-unzip owee-master.zip
-rm -f owee-master.zip
-cd owee-master/
-```
 
 
 #### How to use it
