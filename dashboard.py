@@ -35,7 +35,7 @@ main_page_content = '''
 <html lang="en">
 
 <body>
-  
+
   <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -48,7 +48,6 @@ main_page_content = '''
           <a class="navbar-brand" href="#">Owee</a>
         </div>
         <div class="navbar-collapse collapse">
-          
         </div>
       </div>
     </div>
@@ -56,8 +55,6 @@ main_page_content = '''
     <div class="container-fluid">
       <div class="col-md-12 col-lg-12">
             <h1 class="page-header">Overview</h1>
-
-     
             <h2 class="sub-header">Owees</h2>
             <div class="table-responsive">
               <table class="table table-striped">
@@ -73,11 +70,11 @@ main_page_content = '''
                     <th>Note</th>
                   </tr>
                   </thead>
-                  <tbody>   
+                  <tbody>
 
                   {owee_rows}
-                  
-                </tbody>  
+
+                </tbody>
               </table>
 
             </div>
@@ -103,8 +100,8 @@ owee_row = '''
                 <tr>'''
 
 
-# open a file and load object if there are any else return an empty list
 def file_to_list(filename):
+    """ open a file and load object if there are any else return an empty list """
     # open file to read and load objects
     if os.path.getsize(os.getcwd() + "/" + filename) > 0:
         f = open(filename, 'rb')
@@ -119,16 +116,16 @@ def file_to_list(filename):
         return object_list
 
 
-# open a file to write in it and modifies it
 def modify_file(list_of_object, filename):
+    """ open a file to write in it and modifies it"""
     # open and write objects to file
     f = open(filename, 'wb')
     pickle.dump(list_of_object, f)
     f.close()
 
 
-# check user input in "field"
 def check_input(input_type):
+    """" check user input in field """
     # check email input
     if input_type == 'email':
         email = raw_input('Enter email: ')
@@ -150,7 +147,7 @@ def check_input(input_type):
         year = ""
 
         # match regex and date
-        match = re.match(r'(^\d{1,2}) ([a-zA-Z]{3}) (2\d{3})', date)
+        match = re.match(r'(^\d{1,2}) ([a-zA-Z]{3}) (\d{4})', date)
 
         if match:
             day = match.group(1)
@@ -163,7 +160,7 @@ def check_input(input_type):
         # loop until the date input is valid or the user enter none
         while not match and date != "none":
             date = raw_input("Invalid date format, retry: ")
-            match = re.match(r'(^\d{1,2}) ([a-zA-Z]{3}) (2\d{3})', date)
+            match = re.match(r'(^\d{1,2}) ([a-zA-Z]{3}) (\d{4})', date)
             if match:
                 day = match.group(1)
                 month = match.group(2)
@@ -189,15 +186,17 @@ def check_input(input_type):
     # check value to be only number
     elif input_type == "value":
         value = raw_input("Enter a value: ")
-        while str.isdigit(value) == False and value != "none":
+        match = re.match(r'^\d+', value)
+        while not match and value != "none":
             value = raw_input("Invalid, only input number: ")
+            match = re.match(r'^\d+', value)
         return value
     else:
         print("Argument not valid")
 
 
-# add an owee to the list
 def add_line(filename):
+    """ add an owee to the list """
     first_name = str(raw_input("Enter first name: ")).strip()
     last_name = str(raw_input("Enter last name: ")).strip()
     email = check_input("email")
@@ -223,8 +222,9 @@ def add_line(filename):
 
 
 def change_state(filename, state):
+    """ change the state of a part of an object in the list """
     owees = file_to_list(filename)
-    #check if the list is empty
+    # check if the list is empty
     if len(owees) > 0:
         # iterator
         i = 0
@@ -262,12 +262,11 @@ def change_state(filename, state):
     # if the list is empty print the following
     else:
         print ('The list of owees is actually empty, you can not perform this operation')
-
     modify_file(owees, filename)
 
 
-# create a single row fill with dynamic content
 def create_ower_row_content(owees):
+    """ create a single row fill with dynamic content """
     # create row content
     content = ''
     for owee in owees:
@@ -293,28 +292,13 @@ def open_dashboard_page(owees):
 
     # replace the placeholder for the owee with dynamic content
     rendered_content = main_page_content.format(owee_rows=create_ower_row_content(owees))
-
     # output the file
+
     output_file.write(main_page_head + rendered_content)
     output_file.close()
 
     # open the output file in the browser
     url = os.path.abspath(output_file.name)
-    webbrowser.open('file://' + url, new=2)  # open in a new tab if possible
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    # open in a new tab if possible
+    webbrowser.open('file://' + url, new=2)

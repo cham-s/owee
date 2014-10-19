@@ -13,18 +13,21 @@ from email.mime.text import MIMEText
 
 class Ower():
     """This class define all the attributes of the person borrowing the item"""
-    def __init__(self, ower_first_name, ower_last_name, ower_email, ower_phone, ower_address):
+    def __init__(self, ower_first_name, ower_last_name, ower_email,
+                 ower_phone, ower_address):
         self.first_name = ower_first_name
         self.last_name = ower_last_name
         self.email = ower_email
         self.phone = ower_phone
         self.address = ower_address
 
-    # send a message to the ower reminding him about his loan
     def send_reminder(self):
+        """send a message to the ower reminding him about his loan"""
         print ('Send a reminder')
-        sender = str(raw_input('Enter your email (only Gmail or Yahoo are valid for now): ')).lower().strip()
-        sender_password = getpass.getpass('Enter your email password: ').strip()
+        sender = str(raw_input('Enter your email (only Gmail or Yahoo '
+                               'are valid for now): ')).lower().strip()
+        sender_password = getpass.getpass('Enter your '
+                                          'email password: ').strip()
         hostname = ''
         webmail = ''
         while True:
@@ -39,8 +42,10 @@ class Ower():
                     hostname = 'smtp.gmail.com'
                     break
                 else:
-                    print ('This email provider is not used by this application yet use Gmail or Yahoo Mail')
-                    sender = str(raw_input('Enter your email: ')).lower().strip()
+                    print ('This email provider is not used by this '
+                           'application yet use Gmail or Yahoo Mail')
+                    sender = str(raw_input('Enter your '
+                                           'email: ')).lower().strip()
                     sender_password = getpass.getpass('Enter your email password: ').strip()
             except:
                 sender = raw_input('Invalid mail, retry: ')
@@ -61,7 +66,8 @@ class Ower():
                 except smtplib.SMTPException:
                     print ('Authentication failed, wrong password or mail combo.' + '\n')
                     sender = str(raw_input('Enter email: ')).lower().strip()
-                    sender_password = getpass.getpass('Enter your email password: ').strip()
+                    sender_password = getpass.getpass('Enter your '
+                                                      'email password: ').strip()
         # handle the exception if connection to webmail host failed
         except (socket.gaierror, socket.error, socket.herror, smtplib.SMTPException), e:
             print ('Connection to {0:s} failed'.format(webmail) + '\n')
@@ -100,9 +106,3 @@ class Ower():
             sys.exit(1)
 
         print ('\nEmail Sent Successfully \n')
-
-
-
-
-
-
