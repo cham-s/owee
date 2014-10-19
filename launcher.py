@@ -74,7 +74,6 @@ while int(choice) < 7:
             # change the due date
             dashboard.change_state("owees.ol", "date")
 
-
         elif choice == 7:
             # display a message before quitting the app
             print("\nBye... until next time\n")

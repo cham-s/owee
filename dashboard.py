@@ -89,7 +89,7 @@ main_page_content = '''
 </html>
 '''
 
-# owee row template
+# owee row template in html form
 owee_row = '''
                 <tr>
                     <td>{owee_id}</td>
@@ -107,7 +107,7 @@ owee_row = '''
 def file_to_list(filename):
     # open file to read and load objects
     if os.path.getsize(os.getcwd() + "/" + filename) > 0:
-        f = open(filename, "rb")
+        f = open(filename, 'rb')
         try:
             object_list = pickle.load(f)
             f.close()
@@ -119,10 +119,10 @@ def file_to_list(filename):
         return object_list
 
 
-# open a file to write and modifies it
+# open a file to write in it and modifies it
 def modify_file(list_of_object, filename):
     # open and write objects to file
-    f = open(filename, "wb")
+    f = open(filename, 'wb')
     pickle.dump(list_of_object, f)
     f.close()
 
@@ -130,18 +130,18 @@ def modify_file(list_of_object, filename):
 # check user input in "field"
 def check_input(input_type):
     # check email input
-    if input_type == "email":
-        email = raw_input("Enter email: ")
-        match = re.match(r'[^@]+@[^@]+\.[^@]+', email)
+    if input_type == 'email':
+        email = raw_input('Enter email: ')
+        match = re.match(r'\w+@(\w+)\.\D+', email)
 
-        while not match:
-            email = raw_input("Please enter a valid email: ")
+        while not match and email != 'none':
+            email = raw_input('Please enter a valid email: ')
             match = re.match(r'[^@]+@[^@]+\.[^@]+', email)
         return email
 
     # check date format input
-    elif input_type == "date":
-        date = raw_input("Enter a due date (format: 1 Jan 2014): ")
+    elif input_type == 'date':
+        date = raw_input('Enter a due date (format: 1 Jan 2014): ')
         # valid months format
         months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
                   "Aug", "Sep", "Oct", "Nov", "Dec"]
@@ -168,7 +168,7 @@ def check_input(input_type):
                 day = match.group(1)
                 month = match.group(2)
                 year = match.group(3)
-                while not month in months:
+                while not month.capitalize() in months:
                     month = raw_input('Invalid month, retype only month: ')
                 while day > "31":
                     day = raw_input('Day of the month too high, retype only the day: ')
@@ -196,7 +196,7 @@ def check_input(input_type):
         print("Argument not valid")
 
 
-# add an object to this list
+# add an owee to the list
 def add_line(filename):
     first_name = str(raw_input("Enter first name: ")).strip()
     last_name = str(raw_input("Enter last name: ")).strip()
@@ -205,7 +205,7 @@ def add_line(filename):
     phone = check_input("phone")
     # generate a 5 digit unique id
     owee_id = str(uuid.uuid4().fields[-1])[:5]
-    item_type = str(raw_input("Enter the type of object (e.g: money, shirt): ")).strip()
+    item_type = str(raw_input("Enter the type of object (e.g: money, shirt): ")).strip().capitalize()
     item_value = check_input("value")
     start_date = time.strftime(" %d %b %Y", gmtime())
     end_date = check_input("date")
@@ -224,39 +224,44 @@ def add_line(filename):
 
 def change_state(filename, state):
     owees = file_to_list(filename)
-    # iterator
-    i = 0
-    id_is_not_there = True
-    # check if id exits and proceed accordingly
-    while id_is_not_there:
-        search_id = str(raw_input('Enter the owee ID: ')).strip()
-        for owee in owees:
-            if search_id == owee.item_id:
-                # option to delete a row
-                if state == 'delete':
-                    del (owees[i])
-                # option to change owee status
-                elif state == 'status':
-                    owee.change_status()
-                # option to change the end date
-                elif state == 'date':
-                    new_end_date = check_input("date")
-                    owee.change_end_date(new_end_date)
-                # option to send a reminder message
-                elif state == 'reminder':
-                    owee.the_ower.send_reminder()
-                else:
-                    print ("Invalid state")
-                id_is_not_there = False
-            i += 1
-        if id_is_not_there:
-            print("Please enter a valid ID or 'q' to quit. ")
-        else:
-            print("\n...Operation succeded\n")
+    #check if the list is empty
+    if len(owees) > 0:
+        # iterator
+        i = 0
+        id_is_not_there = True
+        # check if id exits and proceed accordingly
+        while id_is_not_there:
+            search_id = str(raw_input('Enter the owee ID: ')).strip()
+            for owee in owees:
+                if search_id == owee.item_id:
+                    # option to delete a row
+                    if state == 'delete':
+                        del (owees[i])
+                    # option to change owee status
+                    elif state == 'status':
+                        owee.change_status()
+                    # option to change the end date
+                    elif state == 'date':
+                        new_end_date = check_input("date")
+                        owee.change_end_date(new_end_date)
+                    # option to send a reminder message
+                    elif state == 'reminder':
+                        owee.the_ower.send_reminder()
+                    else:
+                        print ("Invalid state")
+                    id_is_not_there = False
+                i += 1
+            if id_is_not_there:
+                print("Please enter a valid ID or 'q' to quit. ")
+            else:
+                print('\n...Operation succeded\n')
 
-        if search_id == "q":
-            print("\n...Operation canceled.\n")
-            break
+            if search_id == "q":
+                print('\n...Operation canceled.\n')
+                break
+    # if the list is empty print the following
+    else:
+        print ('The list of owees is actually empty, you can not perform this operation')
 
     modify_file(owees, filename)
 

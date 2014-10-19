@@ -1,9 +1,9 @@
-For a long period of time i used to lend some stuff (money, clothes and more) to a firend or a neighbour with the goal of having the stuff back after some time. 
+For a long period of time i used to lend some stuff (money, clothes and more) to a friend or a neighbour with the goal of having the stuff back after some time.
 
-The problem that would appear is that after some time, you're not sure about what exactly you lended
-and to whom, when it happenned and maybe you were hopping to have the stuff back at a specific time.
+The problem that would appear is that after some time, you're not sure about what exactly you lent
+and to whom, when it happened and maybe you were hopping to have the stuff back at a specific time.
 Naturally you will feel stupid, frustrated, and sometimes a sentiment of anger will raise.
 
 The only thing left is to find a solution to get this right and always be aware of  what happened to all my stuff.
 
-I decided to takle the problem by building an application that will easily keep track of all the objects i lended.
+I decided to tackle the problem by building an application that will easily keep track of all the objects i lent.

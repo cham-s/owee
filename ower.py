@@ -20,7 +20,7 @@ class Ower():
         self.phone = ower_phone
         self.address = ower_address
 
-    # send a message to the ower remind him about his loan
+    # send a message to the ower reminding him about his loan
     def send_reminder(self):
         print ('Send a reminder')
         sender = str(raw_input('Enter your email (only Gmail or Yahoo are valid for now): ')).lower().strip()
