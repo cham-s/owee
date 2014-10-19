@@ -46,7 +46,7 @@ What would you like to do?
 
 #### Practical Case
 
-![](https://raw.githubusercontent.com/dash-c/owee/master/img/terminal.png)
+![](https://raw.githubusercontent.com/dash-c/owee/instruction_images/1.png)
 ![](https://raw.githubusercontent.com/dash-c/owee/master/img/app.png)
 
 
