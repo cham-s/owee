@@ -5,11 +5,6 @@ The application is written in python, basically it keeps track of all the object
 It could be money, clothes or anything, why not a boat?
 
 
-##### Download the zip file 
-https://github.com/dash-c/owee/archive/master.zip
-
-
-
 #### How to use it
 
 ![](https://raw.githubusercontent.com/dash-c/owee/master/instructions_images/1.png)
